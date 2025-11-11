@@ -35,3 +35,14 @@ BuildContext berfungsi sebagai referensi alamat yang unik untuk lokasi suatu wid
 
 6. Konsep "Hot Reload" dan "Hot Restart"
 Hot Reload adalah fitur pengembangan cepat yang memungkinkan pengembang melihat perubahan kode dalam hitungan detik; yang membuatnya revolusioner adalah kemampuannya untuk menyuntikkan kode baru langsung ke dalam Virtual Machine yang sedang berjalan tanpa menghilangkan state aplikasi saat ini (misalnya, jika kita sedang berada di halaman ketiga, kita tetap di sana). Sementara itu, Hot Restart adalah proses yang lebih menyeluruh; ia menghentikan sepenuhnya dan memulai ulang aplikasi dari awal, menyebabkan seluruh state (termasuk variabel dan posisi navigasi) disetel ulang ke nilai default, menjadikannya pilihan ketika perubahan dilakukan pada variabel global atau state inisial.
+
+
+<!-- TUGAS INDIVIDU KE 8 -->
+
+1. Navigator.push() menambahkan halaman baru sehingga pengguna masih bisa kembali ke halaman sebelumnya, sedangkan Navigator.pushReplacement() mengganti halaman aktif sehingga pengguna tidak dapat kembali. Dalam aplikasi Football Shop, push() cocok untuk membuka halaman Add Product atau View Product, sementara pushReplacement() lebih tepat untuk navigasi menuju Home agar halaman sebelumnya tidak disimpan.
+
+2. Hierarki widget seperti Scaffold, AppBar, dan Drawer dimanfaatkan untuk menciptakan struktur halaman yang seragam; Scaffold menjadi kerangka utama, AppBar memberikan judul yang konsisten, dan Drawer menyediakan navigasi yang mudah diakses, sehingga setiap halaman tampil rapi dan memiliki pola tampilan yang sama.
+
+3. Widget seperti Padding, SingleChildScrollView, dan ListView membantu membuat form lebih rapi, mudah di-scroll, dan tidak overflow; misalnya Padding memberi ruang antar-elemen, SingleChildScrollView memastikan form tetap dapat di-scroll saat keyboard muncul, dan ListView menyusun elemen vertikal secara responsif.
+
+4. Penyesuaian warna tema dilakukan dengan mengatur ThemeData agar warna AppBar, tombol, dan elemen antarmuka konsisten dengan identitas Football Shop, sehingga aplikasi memiliki tampilan yang seragam dan mencerminkan karakter brand secara menyeluruh.
