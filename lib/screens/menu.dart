@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football_shop/widgets/left_drawer.dart';
-import 'package:football_shop/widgets/news_card.dart';
+import 'package:football_shop/widgets/shop_card.dart';
 
 
 class MyHomePage extends StatelessWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_shop/screens/menu.dart';
-import 'package:football_shop/screens/newslist_form.dart';
+import 'package:football_shop/screens/shoplist_form.dart';
+import 'package:football_shop/screens/shop_entry_list.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -104,9 +105,19 @@ class LeftDrawer extends StatelessWidget {
               // Tambahkan logika logout jika perlu
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.add_reaction_rounded),
+            title: const Text('Shop List'),
+            onTap: () {
+                // Route to shop list page
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ShopEntryListPage()),
+                );
+            },
+          ),
         ],
       ),
     );
   }
 }
-
