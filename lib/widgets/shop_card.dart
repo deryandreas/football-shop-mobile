@@ -32,10 +32,10 @@ class ItemCard extends StatelessWidget {
             ..showSnackBar(
               SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!"))
             );
-                if (item.name == "Tambah Produk") {
+                if (item.name == "Create Products") {
             Navigator.push(context,
             MaterialPageRoute(builder: (context) => const ShopFormPage()));
-    }
+    } 
 
             // Add this after your previous if statements
 else if (item.name == "Logout") {
@@ -65,14 +65,26 @@ else if (item.name == "Logout") {
         }
     }
 }
-                else if (item.name == "See Football Shop") {
+
+                else if (item.name == "All Products") {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ShopEntryListPage()
+                      builder: (context) => const ShopEntryListPage(filter: 'all')
                   ),
               );
           }
+
+          else if (item.name == "My Products") {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ShopEntryListPage(filter: 'my')
+                  ),
+              );
+          }
+
+
         },
         // Container untuk menyimpan Icon dan Text
         child: Container(

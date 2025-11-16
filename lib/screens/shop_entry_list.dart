@@ -9,7 +9,8 @@ import 'package:football_shop/screens/shop_detail.dart';
 
 
 class ShopEntryListPage extends StatefulWidget {
-  const ShopEntryListPage({super.key});
+    final String filter;
+  const ShopEntryListPage({super.key, this.filter = "all"});
 
   @override
   State<ShopEntryListPage> createState() => _ShopEntryListPageState();
@@ -41,7 +42,9 @@ class _ShopEntryListPageState extends State<ShopEntryListPage> {
     final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Shop Entry List'),
+        // title: const Text('Shop Entry List'),
+        title: Text(widget.filter == "my" ? 'My Products' : 'All Products'),
+
       ),
       drawer: const LeftDrawer(),
       body: FutureBuilder(
