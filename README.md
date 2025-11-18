@@ -46,3 +46,33 @@ Hot Reload adalah fitur pengembangan cepat yang memungkinkan pengembang melihat 
 3. Widget seperti Padding, SingleChildScrollView, dan ListView membantu membuat form lebih rapi, mudah di-scroll, dan tidak overflow; misalnya Padding memberi ruang antar-elemen, SingleChildScrollView memastikan form tetap dapat di-scroll saat keyboard muncul, dan ListView menyusun elemen vertikal secara responsif.
 
 4. Penyesuaian warna tema dilakukan dengan mengatur ThemeData agar warna AppBar, tombol, dan elemen antarmuka konsisten dengan identitas Football Shop, sehingga aplikasi memiliki tampilan yang seragam dan mencerminkan karakter brand secara menyeluruh.
+
+<!-- TUGAS INDIVIDU 9 -->
+
+1. Model Dart untuk Data JSON
+
+Kita perlu membuat model Dart (seperti kelas ShopEntry) saat bekerja dengan data JSON agar mendapatkan validasi tipe (Type Safety) dan Null Safety yang kuat, sebab Dart adalah bahasa yang ketat dalam penanganan tipe data. Menggunakan model memungkinkan compiler untuk memverifikasi struktur data saat compile time, mencegah runtime crash akibat ketidakcocokan tipe, dan menyederhanakan pemeliharaan (maintainability), karena perubahan struktur data API hanya perlu diurus pada satu file model daripada di seluruh codebase yang mengakses Map<String, dynamic> mentah.
+
+2. Fungsi Package http dan CookieRequest
+
+Package http berfungsi sebagai fondasi untuk semua komunikasi jaringan HTTP (GET, POST, dll.) antara Flutter dan Django, menyediakan mekanisme dasar untuk mengirim dan menerima data. Sementara itu, CookieRequest adalah wrapper khusus di atas http yang secara spesifik bertanggung jawab untuk mengelola cookie sesi otentikasi. Peran http bersifat umum untuk komunikasi, sedangkan CookieRequest berperan vital dalam menjaga kontinuitas sesi dengan secara otomatis menangkap cookie dari respons login dan melampirkannya pada setiap permintaan terotentikasi berikutnya.
+
+3. Alasan CookieRequest Perlu Dibagikan
+
+Instance CookieRequest perlu dibagikan ke semua komponen aplikasi Flutter (melalui State Management seperti Provider) karena ia adalah penyimpan sesi (session keeper) untuk otentikasi pengguna. Ketika user berhasil login, cookie sesi (sessionid) disimpan di dalam instance CookieRequest tersebut. Jika setiap komponen membuat instance baru, informasi cookie sesi akan hilang, dan Django akan menganggap user tersebut belum terotentikasi pada setiap permintaan, sehingga sesi tidak akan bertahan (persisten).
+
+4. Konfigurasi Konektivitas Flutter ke Django
+
+Konfigurasi konektivitas ini esensial karena Flutter (berjalan di emulator) dan Django (berjalan di host) berada pada domain yang berbeda. Kita menambahkan 10.0.2.2 ke ALLOWED_HOSTS Django agar server mengenali emulator Android sebagai host yang valid, sementara mengaktifkan CORS dan mengatur cookie SameSite memungkinkan permintaan cross-origin dan memastikan cookie sesi dapat dikirim melalui koneksi HTTP lokal. Tanpa konfigurasi ini, aplikasi akan menghadapi error HTTP 400 Bad Request dari Django atau error koneksi jaringan, dan sesi otentikasi akan gagal dipertahankan.
+
+5. Mekanisme Pengiriman Data (Input hingga Tampilan)
+
+Mekanisme ini dimulai dari user menginput data pada form Flutter, di mana data tersebut kemudian diubah menjadi string JSON. String JSON ini dikirim melalui permintaan HTTP POST (menggunakan CookieRequest jika memerlukan otentikasi) ke endpoint Django. Di sisi Django, view akan mem-parsing JSON, memvalidasi data menggunakan serializer, menyimpannya ke database, dan merespons dengan status sukses (misalnya, 201 Created). Setelah respons diterima oleh Flutter, aplikasi memperbarui state lokal atau mengambil data terbaru dari server, memungkinkan data produk yang baru disimpan untuk ditampilkan pada widget daftar.
+
+6. Mekanisme Autentikasi (Login, Register, Logout)
+
+Mekanisme otentikasi diawali dengan user mengirim kredensial pada halaman Register; Django memvalidasi dan membuat akun baru. Pada Login, Flutter mengirim kredensial melalui CookieRequest ke /auth/login/. Jika valid, Django menggunakan auth_login() untuk membuat cookie sesi yang secara otomatis ditangkap dan disimpan oleh instance CookieRequest. Sesi ini membuat user terotentikasi, dan state aplikasi Flutter berubah untuk menampilkan menu yang relevan. Proses Logout hanya perlu mengirim permintaan ke /auth/logout/ yang menghapus sesi di Django dan cookie di CookieRequest, sehingga user kembali ke kondisi tidak terotentikasi.
+
+7. Implementasi Checklist (Step-by-Step)
+
+Implementasi dimulai dengan Step 1: Backend Setup, yaitu mengonfigurasi Django (ALLOWED_HOSTS, CORS, cookie SameSite) dan memberikan izin Internet pada AndroidManifest.xml Flutter untuk memastikan konektivitas. Step 2: Model dan Komunikasi Dasar meliputi pembuatan endpoint JSON sementara di Django, penggunaan Quicktype untuk menghasilkan model Dart (ShopEntry), dan membuat fungsi fetch dasar. Step 3: Autentikasi diimplementasikan dengan membuat instance CookieRequest yang dibagikan, membuat view login/register di Django untuk menangani otentikasi sesi, dan memperbaiki bug getter pada widget (.title diganti .name) untuk menampilkan data yang benar dari model yang baru.
